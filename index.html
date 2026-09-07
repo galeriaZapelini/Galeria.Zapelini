@@ -14,6 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+<!-- style.css vem depois do Bootstrap de propósito: o visual da galeria vence o reboot -->
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,13 +28,26 @@
   <a class="marca" href="#hero">
     <span class="marca__m">Galeria</span><span class="marca__nome">Zapelini</span>
   </a>
-  <nav class="nav" id="nav" aria-label="Principal">
-    <a href="#sobre">Sobre</a>
-    <a href="#galeria">Galeria</a>
-    <a href="#duvidas">Dúvidas</a>
-    <a class="nav__cta" href="#contato">Comprar</a>
+
+  <!-- offcanvas-lg: vira gaveta no celular e volta a ser menu comum a partir de lg -->
+  <nav class="nav offcanvas-lg offcanvas-top" tabindex="-1" id="menu" aria-labelledby="menuTitulo">
+    <div class="offcanvas-header d-lg-none">
+      <span class="offcanvas-title marca" id="menuTitulo">
+        <span class="marca__m">Galeria</span><span class="marca__nome">Zapelini</span>
+      </span>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#menu" aria-label="Fechar menu"></button>
+    </div>
+    <div class="offcanvas-body">
+      <a href="#sobre"        data-bs-dismiss="offcanvas" data-bs-target="#menu">Sobre</a>
+      <a href="#galeria"      data-bs-dismiss="offcanvas" data-bs-target="#menu">Galeria</a>
+      <a href="#duvidas"      data-bs-dismiss="offcanvas" data-bs-target="#menu">Dúvidas</a>
+      <a class="nav__cta" href="#contato" data-bs-dismiss="offcanvas" data-bs-target="#menu">Comprar</a>
+    </div>
   </nav>
-  <button class="hamburguer" id="hamburguer" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu">
+
+  <button class="hamburguer d-lg-none" id="hamburguer" type="button"
+          data-bs-toggle="offcanvas" data-bs-target="#menu"
+          aria-controls="menu" aria-label="Abrir menu">
     <span></span><span></span>
   </button>
 </header>
@@ -41,8 +56,9 @@
 <section class="hero" id="hero">
   <div class="hero__luz" aria-hidden="true"></div>
 
-  <div class="hero__interno">
-    <div class="hero__texto-col">
+  <div class="hero__interno container">
+   <div class="row align-items-center g-4 g-lg-5">
+    <div class="col-12 col-lg-7 hero__texto-col">
       <h1 class="hero__titulo">
         <span class="linha">Galeria</span>
         <span class="linha">Zapelini</span>
@@ -62,14 +78,18 @@
         <a class="botao" href="#galeria">Ver os desenhos</a>
         <a class="botao botao--vazado" href="#contato">Comprar um original</a>
       </div>
+
     </div>
 
+    <div class="col-8 col-sm-6 col-md-5 col-lg-5">
     <figure class="hero__obra">
       <img src="assets/coroa-de-espinhos.jpg"
            alt="Retrato em grafite de Cristo com a coroa de espinhos, feito sobre papel preto"
            width="686" height="960" fetchpriority="high">
       <figcaption>Coroa de Espinhos<small>lápis de cor e tinta sobre papel</small></figcaption>
     </figure>
+    </div>
+   </div>
   </div>
 
   <div class="hero__rodape">
@@ -80,7 +100,9 @@
 
 <!-- ============ SOBRE ============ -->
 <section class="sobre" id="sobre">
-  <div class="sobre__texto reveal">
+ <div class="container">
+  <div class="row g-4 g-lg-5">
+   <div class="col-12 col-lg-7 sobre__texto reveal">
     <h2>Quem desenha</h2>
     <p class="destaque">
       Samuel M. Zapelini desenha há cinco anos. Ninguém ensinou; ele aprendeu
@@ -101,18 +123,23 @@
       <li><strong>100% autodidata</strong>, sem curso nem ateliê</li>
       <li><strong>Grafite, giz e lápis de cor</strong> sobre papel</li>
     </ul>
-  </div>
+   </div>
 
-  <figure class="sobre__obra reveal">
+   <div class="col-12 col-md-8 col-lg-5">
+   <figure class="sobre__obra reveal">
     <img src="assets/riso.jpg"
          alt="Desenho a grafite de um casal rindo, retrato duplo"
          width="960" height="668" loading="lazy">
     <figcaption>detalhe de <em>Como eu era antes de você</em></figcaption>
-  </figure>
+   </figure>
+   </div>
+  </div>
+ </div>
 </section>
 
 <!-- ============ GALERIA ============ -->
 <section class="galeria" id="galeria">
+ <div class="container">
   <div class="secao__cabeca reveal">
     <h2>Galeria</h2>
     <p>Os originais no papel, cada um em peça única. Clique para ampliar.</p>
@@ -121,10 +148,12 @@
   <div class="filtros" id="filtros" role="group" aria-label="Filtrar obras por categoria" hidden></div>
 
   <div class="grade" id="grade"></div>
+ </div>
 </section>
 
 <!-- ============ DÚVIDAS ============ -->
 <section class="duvidas" id="duvidas">
+ <div class="container">
   <div class="secao__cabeca reveal">
     <h2>Dúvidas</h2>
   </div>
@@ -155,10 +184,12 @@
       <div class="item__corpo"><p>Varia de obra para obra. Pergunte no Instagram e ele passa as medidas exatas da peça que te interessou.</p></div>
     </details>
   </div>
+ </div>
 </section>
 
 <!-- ============ CONTATO ============ -->
 <section class="contato" id="contato">
+ <div class="container">
   <div class="contato__interno reveal">
     <h2>A conversa acontece no Instagram</h2>
     <p>
@@ -171,6 +202,7 @@
     </a>
     <p class="contato__nota">Costuma responder em até um dia.</p>
   </div>
+ </div>
 </section>
 
 <footer class="rodape">
@@ -191,6 +223,7 @@
   <button class="lightbox__nav lightbox__nav--prox" id="lbProx" aria-label="Próxima obra">&#8250;</button>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

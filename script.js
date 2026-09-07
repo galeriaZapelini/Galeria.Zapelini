@@ -52,53 +52,88 @@ const semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").match
    Topo: fundo sólido depois de rolar + menu mobile
    ------------------------------------------------------------ */
 const topo = $("#topo");
-const nav = $("#nav");
-const hamburguer = $("#hamburguer");
 
 const marcarTopo = () => topo.classList.toggle("encolhido", window.scrollY > 40);
 marcarTopo();
 addEventListener("scroll", marcarTopo, { passive: true });
 
-hamburguer.addEventListener("click", () => {
-  const aberto = nav.classList.toggle("aberto");
-  hamburguer.setAttribute("aria-expanded", String(aberto));
-  hamburguer.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
-  document.body.style.overflow = aberto ? "hidden" : "";
-});
-
-nav.addEventListener("click", e => {
-  if (e.target.tagName !== "A" || !nav.classList.contains("aberto")) return;
-  nav.classList.remove("aberto");
-  hamburguer.setAttribute("aria-expanded", "false");
-  document.body.style.overflow = "";
-});
+/* A gaveta do menu é o offcanvas do Bootstrap: foco preso, Esc, backdrop e
+   trava de rolagem vêm de lá. Aqui só trocamos o rótulo do botão. */
+const menu = $("#menu");
+const hamburguer = $("#hamburguer");
+if (menu && hamburguer) {
+  menu.addEventListener("show.bs.offcanvas", () => hamburguer.setAttribute("aria-label", "Fechar menu"));
+  menu.addEventListener("hide.bs.offcanvas", () => hamburguer.setAttribute("aria-label", "Abrir menu"));
+}
 
 /* ------------------------------------------------------------
    A luz da galeria: acompanha o cursor no hero
    ------------------------------------------------------------ */
 const hero = $("#hero");
-if (hero && !semMovimento && matchMedia("(pointer:fine)").matches) {
-  // A classe libera o efeito de revelar texto; sem ponteiro fino ou com
-  // movimento reduzido, os textos ficam legíveis do jeito normal.
-  hero.classList.add("com-luz");
+const ponteiroFino = matchMedia("(pointer:fine)").matches;
 
-  let pendente = false, px = 50, py = 42, lx = 0, ly = 0;
-  hero.addEventListener("pointermove", e => {
-    const r = hero.getBoundingClientRect();
-    px = ((e.clientX - r.left) / r.width) * 100;
-    py = ((e.clientY - r.top) / r.height) * 100;
-    lx = e.clientX;  // relativo à janela: é assim que o fundo fixo é posicionado
-    ly = e.clientY;
+if (hero && !semMovimento) {
+  let pendente = false;
+
+  // Recebe a posição da luz em coordenadas da janela e alimenta as duas
+  // formas que o CSS usa: porcentagem dentro do hero (o facho e a grade)
+  // e pixels da janela (o recorte de texto, que usa fundo fixo).
+  const aplicar = (x, y) => {
     if (pendente) return;
     pendente = true;
     requestAnimationFrame(() => {
-      hero.style.setProperty("--mx", px + "%");
-      hero.style.setProperty("--my", py + "%");
-      hero.style.setProperty("--lx", lx + "px");
-      hero.style.setProperty("--ly", ly + "px");
+      const r = hero.getBoundingClientRect();
+      hero.style.setProperty("--mx", ((x - r.left) / r.width) * 100 + "%");
+      hero.style.setProperty("--my", ((y - r.top) / r.height) * 100 + "%");
+      hero.style.setProperty("--lx", x + "px");
+      hero.style.setProperty("--ly", y + "px");
       pendente = false;
     });
-  });
+  };
+
+  if (ponteiroFino) {
+    // Mouse: a luz é o cursor, e só aqui o texto do rodapé é recortado nela.
+    hero.classList.add("com-luz");
+    hero.addEventListener("pointermove", e => aplicar(e.clientX, e.clientY));
+
+  } else {
+    // Toque: ninguém aponta o facho, então ele caminha sozinho pela parede,
+    // devagar, como alguém atravessando a sala com uma lanterna. O dedo assume
+    // o comando enquanto está na tela.
+    let t = Math.random() * 100, alvoX = 0, alvoY = 0, atualX = 0, atualY = 0;
+    let conduzindo = false, rodando = false, quadro = 0, iniciado = false;
+
+    const passo = () => {
+      const r = hero.getBoundingClientRect();
+      if (!conduzindo) {
+        t += 0.005;
+        alvoX = r.left + r.width  * (0.5 + 0.3 * Math.sin(t));
+        alvoY = r.top  + r.height * (0.46 + 0.24 * Math.sin(t * 1.7));
+      }
+      if (!iniciado) { atualX = alvoX; atualY = alvoY; iniciado = true; }
+      atualX += (alvoX - atualX) * 0.07;
+      atualY += (alvoY - atualY) * 0.07;
+      aplicar(atualX, atualY);
+      quadro = requestAnimationFrame(passo);
+    };
+
+    const ligar  = () => { if (!rodando) { rodando = true; quadro = requestAnimationFrame(passo); } };
+    const parar  = () => { rodando = false; cancelAnimationFrame(quadro); };
+
+    // Fora da tela a animação para: nada de gastar bateria à toa.
+    new IntersectionObserver(([e]) => e.isIntersecting ? ligar() : parar()).observe(hero);
+
+    const conduzir = e => {
+      const toque = e.touches && e.touches[0];
+      if (!toque) return;
+      conduzindo = true;
+      alvoX = toque.clientX;
+      alvoY = toque.clientY;
+    };
+    hero.addEventListener("touchstart", conduzir, { passive: true });
+    hero.addEventListener("touchmove",  conduzir, { passive: true });
+    hero.addEventListener("touchend",  () => { conduzindo = false; }, { passive: true });
+  }
 }
 
 /* ------------------------------------------------------------
@@ -150,6 +185,42 @@ function montarGrade(categoria = "Todos") {
   grade.style.setProperty("--colunas", String(Math.min(3, Math.max(1, Math.ceil(visiveis.length / 2)))));
 
   observarRevelaveis();
+  acenderMaisProxima();
+}
+
+/* ------------------------------------------------------------
+   No toque não existe hover, então quem aponta o facho é a rolagem:
+   a obra mais próxima do centro da tela acende e as outras recuam.
+   ------------------------------------------------------------ */
+const semHover = matchMedia("(hover:none)").matches;
+let obraAcesa = null;
+
+function acenderMaisProxima() {
+  if (!semHover || semMovimento) return;
+  grade.classList.add("grade--toque");
+  const centro = innerHeight / 2;
+  let escolhida = null, menor = Infinity;
+  $$(".obra", grade).forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const d = Math.abs(r.top + r.height / 2 - centro);
+    if (d < menor) { menor = d; escolhida = el; }
+  });
+  if (escolhida === obraAcesa) return;
+  if (obraAcesa) obraAcesa.classList.remove("obra--focada");
+  if (escolhida) escolhida.classList.add("obra--focada");
+  obraAcesa = escolhida;
+}
+
+if (semHover && !semMovimento) {
+  let agendado = false;
+  const aoRolar = () => {
+    if (agendado) return;
+    agendado = true;
+    requestAnimationFrame(() => { acenderMaisProxima(); agendado = false; });
+  };
+  addEventListener("scroll", aoRolar, { passive: true });
+  addEventListener("resize", aoRolar, { passive: true });
 }
 
 function montarFiltros() {
