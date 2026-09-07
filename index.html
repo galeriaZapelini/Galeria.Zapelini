@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galeria Zapelini — desenhos originais à venda</title>
+<meta name="description" content="Desenhos originais de Samuel M. Zapelini, feitos à mão em grafite sobre papel. Peças únicas à venda.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Galeria Zapelini — desenhos originais à venda">
+<meta property="og:description" content="Desenhos originais feitos à mão em grafite sobre papel. Peças únicas à venda.">
+<meta property="og:image" content="https://gabrielkzk.github.io/M.Zapelini-Studio/assets/coroa-de-espinhos.jpg">
+<meta property="og:url" content="https://gabrielkzk.github.io/M.Zapelini-Studio/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grao" aria-hidden="true"></div>
+
+<a class="pular" href="#galeria">Pular para a galeria</a>
+
+<header class="topo" id="topo">
+  <a class="marca" href="#hero">
+    <span class="marca__m">Galeria</span><span class="marca__nome">Zapelini</span>
+  </a>
+  <nav class="nav" id="nav" aria-label="Principal">
+    <a href="#sobre">Sobre</a>
+    <a href="#galeria">Galeria</a>
+    <a href="#duvidas">Dúvidas</a>
+    <a class="nav__cta" href="#contato">Comprar</a>
+  </nav>
+  <button class="hamburguer" id="hamburguer" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero__luz" aria-hidden="true"></div>
+
+  <div class="hero__interno">
+    <div class="hero__texto-col">
+      <h1 class="hero__titulo">
+        <span class="linha">Galeria</span>
+        <span class="linha">Zapelini</span>
+      </h1>
+
+      <svg class="assinatura" viewBox="0 0 420 40" aria-hidden="true" focusable="false">
+        <path d="M4 28 C 60 8, 120 34, 176 20 S 292 6, 344 24 C 372 33, 396 22, 414 14"
+              fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+
+      <p class="hero__frase">
+        Grafite sobre papel, linha por linha, sem atalho digital. Os
+        originais estão à venda, um de cada.
+      </p>
+
+      <div class="hero__acoes">
+        <a class="botao" href="#galeria">Ver os desenhos</a>
+        <a class="botao botao--vazado" href="#contato">Comprar um original</a>
+      </div>
+    </div>
+
+    <figure class="hero__obra">
+      <img src="assets/coroa-de-espinhos.jpg"
+           alt="Retrato em grafite de Cristo com a coroa de espinhos, feito sobre papel preto"
+           width="686" height="960" fetchpriority="high">
+      <figcaption>Coroa de Espinhos<small>lápis de cor e tinta sobre papel</small></figcaption>
+    </figure>
+  </div>
+
+  <div class="hero__rodape">
+    <span>Autodidata desde 2021</span>
+    <span class="hero__rolar" aria-hidden="true">role para baixo</span>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section class="sobre" id="sobre">
+  <div class="sobre__texto reveal">
+    <h2>Quem desenha</h2>
+    <p class="destaque">
+      Samuel M. Zapelini desenha há cinco anos. Ninguém ensinou; ele aprendeu
+      olhando, copiando, errando e refazendo a mesma linha até ela ficar certa.
+    </p>
+    <p>
+      O grafite é o território dele. Trabalha quase sempre em preto e branco
+      porque, sem cor, o que sobra é o traço: a pressão do lápis, o peso da
+      sombra, o branco que ele decide não preencher. Quando a cena pede,
+      a cor entra, como na janela ao entardecer ali na galeria.
+    </p>
+    <p>
+      Os desenhos aqui são os originais no papel, feitos um por um. Cada peça
+      existe uma vez só: quando sai, sai de vez.
+    </p>
+    <ul class="fatos">
+      <li><strong>5 anos</strong> de prática diária</li>
+      <li><strong>100% autodidata</strong>, sem curso nem ateliê</li>
+      <li><strong>Grafite, giz e lápis de cor</strong> sobre papel</li>
+    </ul>
+  </div>
+
+  <figure class="sobre__obra reveal">
+    <img src="assets/riso.jpg"
+         alt="Desenho a grafite de um casal rindo, retrato duplo"
+         width="960" height="668" loading="lazy">
+    <figcaption>detalhe de <em>Como eu era antes de você</em></figcaption>
+  </figure>
+</section>
+
+<!-- ============ GALERIA ============ -->
+<section class="galeria" id="galeria">
+  <div class="secao__cabeca reveal">
+    <h2>Galeria</h2>
+    <p>Os originais no papel, cada um em peça única. Clique para ampliar.</p>
+  </div>
+
+  <div class="filtros" id="filtros" role="group" aria-label="Filtrar obras por categoria" hidden></div>
+
+  <div class="grade" id="grade"></div>
+</section>
+
+<!-- ============ DÚVIDAS ============ -->
+<section class="duvidas" id="duvidas">
+  <div class="secao__cabeca reveal">
+    <h2>Dúvidas</h2>
+  </div>
+
+  <div class="acordeao">
+    <details class="item">
+      <summary>Como compro um desenho?</summary>
+      <div class="item__corpo"><p>Escolha a obra aqui na galeria e chame ele no Instagram dizendo qual é. Ele confirma se ainda está disponível e passa o valor.</p></div>
+    </details>
+    <details class="item">
+      <summary>Como funciona o pagamento?</summary>
+      <div class="item__corpo"><p>Pix é o mais comum. O combinado fica todo por escrito na conversa, antes de qualquer envio.</p></div>
+    </details>
+    <details class="item">
+      <summary>Recebo o desenho original?</summary>
+      <div class="item__corpo"><p>Sim, é o papel que ele desenhou, não uma cópia impressa. Vai embalado com proteção rígida e envelope, pelos Correios, com o frete por sua conta.</p></div>
+    </details>
+    <details class="item">
+      <summary>Dá para comprar mais de uma vez a mesma obra?</summary>
+      <div class="item__corpo"><p>Não. Cada desenho existe uma vez só. Quando alguém leva, ele sai da galeria.</p></div>
+    </details>
+    <details class="item">
+      <summary>Ele aceita encomenda?</summary>
+      <div class="item__corpo"><p>Por enquanto não. Ele está vendendo o que já tem pronto. Se isso mudar, avisa primeiro no Instagram.</p></div>
+    </details>
+    <details class="item">
+      <summary>Qual o tamanho de cada desenho?</summary>
+      <div class="item__corpo"><p>Varia de obra para obra. Pergunte no Instagram e ele passa as medidas exatas da peça que te interessou.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ CONTATO ============ -->
+<section class="contato" id="contato">
+  <div class="contato__interno reveal">
+    <h2>A conversa acontece no Instagram</h2>
+    <p>
+      Escolha a obra aqui, chame ele por lá dizendo qual é, e ele responde com
+      o valor e o combinado de entrega. É também onde os desenhos novos
+      aparecem primeiro, e onde dá para deixar seu comentário sobre o trabalho.
+    </p>
+    <a class="botao botao--grande" href="https://www.instagram.com/galeria_.mzapelini/" target="_blank" rel="noopener">
+      @galeria_.mzapelini
+    </a>
+    <p class="contato__nota">Costuma responder em até um dia.</p>
+  </div>
+</section>
+
+<footer class="rodape">
+  <span>Galeria Zapelini</span>
+  <span>Desenho à mão, grafite sobre papel</span>
+  <a href="https://www.instagram.com/galeria_.mzapelini/" target="_blank" rel="noopener">Instagram</a>
+  <a href="https://www.instagram.com/zapelini_gabrielmendes/" target="_blank" rel="noopener">Desenvolvido por Gabriel Mendes</a>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Obra ampliada" hidden>
+  <button class="lightbox__fechar" id="lbFechar" aria-label="Fechar">&times;</button>
+  <button class="lightbox__nav lightbox__nav--ant" id="lbAnt" aria-label="Obra anterior">&#8249;</button>
+  <figure class="lightbox__figura">
+    <div class="lightbox__midia" id="lbMidia"></div>
+    <figcaption id="lbLegenda"></figcaption>
+  </figure>
+  <button class="lightbox__nav lightbox__nav--prox" id="lbProx" aria-label="Próxima obra">&#8250;</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
