@@ -66,6 +66,28 @@ if (menu && hamburguer) {
   menu.addEventListener("hide.bs.offcanvas", () => hamburguer.setAttribute("aria-label", "Abrir menu"));
 }
 
+/* Links do menu que apontam para âncoras da própria página: enquanto a gaveta
+   (offcanvas) está aberta, o Bootstrap trava a rolagem do body até ela terminar
+   de fechar, então o salto para a âncora se perde nesse meio-tempo. Por isso a
+   rolagem só acontece depois que o offcanvas termina de fechar. */
+if (menu) {
+  $$('a[href^="#"]', menu).forEach(link => {
+    link.addEventListener("click", e => {
+      const alvo = $(link.getAttribute("href"));
+      if (!alvo) return;
+      e.preventDefault();
+
+      const rolar = () => alvo.scrollIntoView({ behavior: semMovimento ? "auto" : "smooth", block: "start" });
+
+      if (menu.classList.contains("show")) {
+        menu.addEventListener("hidden.bs.offcanvas", rolar, { once: true });
+      } else {
+        rolar();
+      }
+    });
+  });
+}
+
 /* ------------------------------------------------------------
    A luz da galeria: acompanha o cursor no hero
    ------------------------------------------------------------ */
